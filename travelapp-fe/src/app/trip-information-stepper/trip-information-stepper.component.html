@@ -1,0 +1,14 @@
+<div style="display: flex; align-items: center; justify-content: center; height: 100%">
+  @switch (currentStep) {
+    @case (0) {
+      <app-trip-step-details (next)="nextStep()"></app-trip-step-details>
+    }
+    @case (1) {
+      <app-trip-step-travelers (next)="nextStep()" (back)="previousStep()"></app-trip-step-travelers>
+    }
+    @case (2) {
+      <app-trip-step-preferences (back)="previousStep()"></app-trip-step-preferences>
+    }
+  }
+</div>
+

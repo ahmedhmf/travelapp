@@ -1,0 +1,99 @@
+<form [formGroup]="tripForm" (ngSubmit)="submitForm()">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Destination</mat-label>
+    <input matInput formControlName="destination" placeholder="e.g. Budapest">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Arrival Date</mat-label>
+    <input matInput [matDatepicker]="startPicker" formControlName="startDate">
+    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+    <mat-datepicker #startPicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Departure Date</mat-label>
+    <input matInput [matDatepicker]="endPicker" formControlName="endDate">
+    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+    <mat-datepicker #endPicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Adults</mat-label>
+    <input type="number" matInput formControlName="adults">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Elders</mat-label>
+    <input type="number" matInput formControlName="elders">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Children</mat-label>
+    <input type="number" matInput formControlName="children">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Child Ages</mat-label>
+    <input matInput formControlName="childAges" placeholder="e.g. 3 years">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Interests</mat-label>
+    <mat-select formControlName="interests" multiple>
+      @for (interest of interests; track interest) {
+        <mat-option [value]="interest">{{ interest }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Trip Style</mat-label>
+    <mat-select formControlName="tripStyle">
+      <mat-option value="Relaxed">Relaxed</mat-option>
+      <mat-option value="Balanced">Balanced</mat-option>
+      <mat-option value="Packed">Packed</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Special Notes</mat-label>
+    <textarea matInput formControlName="notes" rows="3"></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Generate Itinerary</button>
+</form>
+@if (itineraryData) {
+  <div>
+    @for (day of itineraryData.days; track day) {
+      <div class="day-section">
+        <h3>{{ day.date }} – {{ day.title }}</h3>
+        <table class="activity-table">
+          <thead>
+          <tr>
+            <th>Time</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Group</th>
+            <th>Edit</th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (activity of day.activities; track activity) {
+              <tr>
+                <td><input [(ngModel)]="activity.time"/></td>
+                <td><input [(ngModel)]="activity.title"/></td>
+                <td><textarea [(ngModel)]="activity.description"></textarea></td>
+                <td>{{ activity.group.join(', ') }}</td>
+                <td>
+<!--                  <button mat-button (click)="saveActivity(day, activity)">Save</button>-->
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+}
+

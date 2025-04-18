@@ -1,0 +1,18 @@
+<h3>Step 1: Trip Details</h3>
+<div style="display: flex; flex-direction: column; gap: 1rem;">
+  <mat-form-field appearance="fill">
+    <mat-label>Destination</mat-label>
+    <input matInput [value]="tripStore.destination()" (input)="updateDestination($event)"/>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Select Trip Days</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate placeholder="Start date" #dateRangeStart disabled [min]="startDate">
+      <input matEndDate placeholder="End date" #dateRangeEnd (dateChange)="dateRangeChange(dateRangeStart, dateRangeEnd)" disabled>
+    </mat-date-range-input>
+    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="next.emit()">Next</button>
+</div>

@@ -1,0 +1,32 @@
+*.swp
+*.*~
+travelaapp-be/project.lock.json
+.DS_Store
+*.pyc
+
+# Visual Studio Code
+travelaapp-be/.vscode
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+travelaapp-be/[Dd]ebug/
+travelaapp-be/[Dd]ebugPublic/
+travelaapp-be/[Rr]elease/
+travelaapp-be/[Rr]eleases/
+travelaapp-be/x64/
+travelaapp-be/x86/
+travelaapp-be/build/
+travelaapp-be/bld/
+travelaapp-be/[Bb]in/
+travelaapp-be/[Oo]bj/
+travelaapp-be/msbuild.log
+travelaapp-be/msbuild.err
+travelaapp-be/msbuild.wrn
+
+# Visual Studio 2015
+travelaapp-be/.vs/

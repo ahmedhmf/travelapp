@@ -1,0 +1,9 @@
+<div style="display: flex; gap: 1rem; align-items: center; justify-content: space-between; ">
+  <button mat-icon-button (click)="onMinusPressed()" [disabled]="disableMinusButtonWhenLessThanZero()">
+    <mat-icon svgIcon="minus-button-icon"></mat-icon>
+  </button>
+  {{ value() }}
+  <button mat-icon-button (click)="onPlusPressed()">
+    <mat-icon svgIcon="plus-button-icon"></mat-icon>
+  </button>
+</div>

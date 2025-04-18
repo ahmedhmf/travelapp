@@ -1,0 +1,30 @@
+<h3>Step 2: Travelers Info</h3>
+<div style="display: flex; flex-direction: column; gap: 1rem;">
+  <div style="display: flex; gap: 3rem; align-items: center;">
+    <h4 style="width: 50%">Adults</h4>
+    <app-counter style="width: 50%" [value]="tripStore.adults()" (plusPressed)="onAddAdult()"
+                 (minusPressed)="onRemoveAdult()" [allowLessThanZero]="true"></app-counter>
+  </div>
+
+  <div style="display: flex; gap: 3rem; align-items: center;">
+    <h4 style="width: 50%">Elders</h4>
+    <app-counter style="width: 50%" [value]="tripStore.elders()" (plusPressed)="onAddElder()"
+                 (minusPressed)="onRemoveElder()" [allowLessThanZero]="true"></app-counter>
+  </div>
+
+  <div style="display: flex; gap: 3rem; align-items: center;">
+    <h4 style="width: 50%">Children</h4>
+    <app-counter style="width: 50%" [value]="tripStore.children()" (plusPressed)="onAddchildren()"
+                 (minusPressed)="onRemovechildren()" [allowLessThanZero]="true"></app-counter>
+  </div>
+
+  @for (child of this.tripStore.childAges(); track child; let i = $index) {
+    <div style="display: flex; gap: 3rem; align-items: center; padding: 1rem;">
+      <h6 style="width: 50%">Child {{ i + 1 }}</h6>
+      <app-counter style="width: 50%" [value]="tripStore.childAges()[i]" (plusPressed)="onAddChildAge(i)"
+                   (minusPressed)="onRemoveChildAge(i)" [allowLessThanZero]="true"></app-counter>
+    </div>
+  }
+  <button mat-button (click)="back.emit()">Back</button>
+  <button mat-raised-button color="primary" (click)="next.emit()">Next</button>
+</div>

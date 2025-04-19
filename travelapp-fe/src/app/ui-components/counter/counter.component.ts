@@ -7,7 +7,7 @@ import {MatIcon} from "@angular/material/icon";
   standalone: true,
   imports: [MatButtonModule, MatIcon],
   templateUrl: './counter.component.html',
-  styleUrl: './counter.component.css'
+  styleUrl: './counter.component.scss'
 })
 export class CounterComponent {
   value = input(0);

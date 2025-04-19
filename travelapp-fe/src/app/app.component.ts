@@ -8,7 +8,7 @@ import {DomSanitizer} from "@angular/platform-browser";
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'travelapp-fe';

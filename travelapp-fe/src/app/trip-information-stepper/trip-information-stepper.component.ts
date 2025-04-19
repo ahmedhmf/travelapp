@@ -6,7 +6,10 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {TripStepDetailsComponent} from "./trip-step-details/trip-step-details.component";
 import {TripStepTravelersComponent} from "./trip-step-travelers/trip-step-travelers.component";
-import {TripStepPreferencesComponent} from "./trip-step-preferences/trip-step-preferences.component";
+import {TripStepStyleComponent} from "./trip-step-style/trip-step-style.component";
+import {TripStepIntrestsComponent} from "./trip-step-intrests/trip-step-intrests.component";
+import {TripStepSpecialNotesComponent} from "./trip-step-special-notes/trip-step-special-notes.component";
+import {TripStepLoadComponent} from "./trip-step-load/trip-step-load.component";
 
 @Component({
   selector: 'app-trip-information-stepper',
@@ -16,7 +19,7 @@ import {TripStepPreferencesComponent} from "./trip-step-preferences/trip-step-pr
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule, TripStepDetailsComponent, TripStepTravelersComponent, TripStepPreferencesComponent,],
+    MatInputModule, TripStepDetailsComponent, TripStepTravelersComponent, TripStepStyleComponent, TripStepIntrestsComponent, TripStepSpecialNotesComponent, TripStepLoadComponent],
   templateUrl: './trip-information-stepper.component.html',
   styleUrl: './trip-information-stepper.component.css'
 })

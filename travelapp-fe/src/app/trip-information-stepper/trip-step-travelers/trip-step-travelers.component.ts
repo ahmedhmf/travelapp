@@ -16,7 +16,7 @@ import {CounterComponent} from "../../ui-components/counter/counter.component";
     CounterComponent,
   ],
   templateUrl: './trip-step-travelers.component.html',
-  styleUrl: './trip-step-travelers.component.css'
+  styleUrl: './trip-step-travelers.component.scss'
 })
 export class TripStepTravelersComponent {
   @Output() next = new EventEmitter<void>();

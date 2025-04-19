@@ -1,0 +1,7 @@
+<h3>Trip Style</h3>
+<div style="display: flex; flex-direction: column; gap: 1rem; justify-content: center;">
+  <app-image-button image="./icons/relaxed.svg" label="Relaxed" (click)="onRelaxedClick()"></app-image-button>
+  <app-image-button image="./icons/balanced.svg" label="Balanced" (click)="onBalancedClick()"></app-image-button>
+  <app-image-button image="./icons/fast.svg" label="Fast" (click)="onFastClick()"></app-image-button>
+</div>
+<button mat-button (click)="back.emit()">Back</button>

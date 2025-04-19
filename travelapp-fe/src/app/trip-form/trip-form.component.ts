@@ -23,7 +23,7 @@ import {Itinerary} from "../../../itinerary.model";
     FormsModule
   ],
   templateUrl: './trip-form.component.html',
-  styleUrl: './trip-form.component.css'
+  styleUrl: './trip-form.component.scss'
 })
 export class TripFormComponent {
   private http = inject(HttpClient);

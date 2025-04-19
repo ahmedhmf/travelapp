@@ -25,7 +25,7 @@ import {
     MatDatepickerModule
   ],
   templateUrl: './trip-step-details.component.html',
-  styleUrl: './trip-step-details.component.css'
+  styleUrl: './trip-step-details.component.scss'
 })
 export class TripStepDetailsComponent {
   @ViewChild('destinationInput') destinationInput: ElementRef | undefined;

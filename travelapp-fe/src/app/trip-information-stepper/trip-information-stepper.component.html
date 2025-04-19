@@ -7,7 +7,16 @@
       <app-trip-step-travelers (next)="nextStep()" (back)="previousStep()"></app-trip-step-travelers>
     }
     @case (2) {
-      <app-trip-step-preferences (back)="previousStep()"></app-trip-step-preferences>
+      <app-trip-step-intrests (next)="nextStep()" (back)="previousStep()"></app-trip-step-intrests>
+    }
+    @case (3) {
+      <app-trip-step-style (next)="nextStep()" (back)="previousStep()"></app-trip-step-style>
+    }
+    @case (4) {
+      <app-trip-step-special-notes  (back)="previousStep()" (next)="nextStep()"></app-trip-step-special-notes>
+    }
+    @case (5) {
+      <app-trip-step-load></app-trip-step-load>
     }
   }
 </div>

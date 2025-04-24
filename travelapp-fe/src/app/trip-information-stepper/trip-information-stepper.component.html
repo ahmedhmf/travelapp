@@ -16,7 +16,13 @@
       <app-trip-step-special-notes  (back)="previousStep()" (next)="nextStep()"></app-trip-step-special-notes>
     }
     @case (5) {
-      <app-trip-step-load></app-trip-step-load>
+      <app-trip-step-load (next)="nextStep()"></app-trip-step-load>
+    }
+    @case (6){
+      <app-trip-step-choices (next)="nextStep()"></app-trip-step-choices>
+    }
+    @case (7){
+      <app-trip-step-generate-plan></app-trip-step-generate-plan>
     }
   }
 </div>

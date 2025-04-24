@@ -10,6 +10,8 @@ import {TripStepStyleComponent} from "./trip-step-style/trip-step-style.componen
 import {TripStepIntrestsComponent} from "./trip-step-intrests/trip-step-intrests.component";
 import {TripStepSpecialNotesComponent} from "./trip-step-special-notes/trip-step-special-notes.component";
 import {TripStepLoadComponent} from "./trip-step-load/trip-step-load.component";
+import {TripStepChoicesComponent} from "./trip-step-choices/trip-step-choices.component";
+import {TripStepGeneratePlanComponent} from "./trip-step-generate-plan/trip-step-generate-plan.component";
 
 @Component({
   selector: 'app-trip-information-stepper',
@@ -19,7 +21,7 @@ import {TripStepLoadComponent} from "./trip-step-load/trip-step-load.component";
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule, TripStepDetailsComponent, TripStepTravelersComponent, TripStepStyleComponent, TripStepIntrestsComponent, TripStepSpecialNotesComponent, TripStepLoadComponent],
+    MatInputModule, TripStepDetailsComponent, TripStepTravelersComponent, TripStepStyleComponent, TripStepIntrestsComponent, TripStepSpecialNotesComponent, TripStepLoadComponent, TripStepChoicesComponent, TripStepGeneratePlanComponent],
   templateUrl: './trip-information-stepper.component.html',
   styleUrl: './trip-information-stepper.component.css'
 })

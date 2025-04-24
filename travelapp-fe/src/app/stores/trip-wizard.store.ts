@@ -1,5 +1,6 @@
 import {patchState, signalStore, withComputed, withMethods, withState} from '@ngrx/signals';
 import {computed} from "@angular/core";
+import {RecommendedPlace} from "../model/recommended-place.model";
 
 export type TripData = {
   destination: string;
@@ -12,6 +13,8 @@ export type TripData = {
   interests: string[];
   tripStyle: string;
   notes: string;
+  recommendedPlace: RecommendedPlace[] | undefined
+  selectedPlaces: string[];
 }
 
 export const initialState: TripData = {
@@ -24,7 +27,9 @@ export const initialState: TripData = {
   childAges: [],
   interests: [],
   tripStyle: 'Balanced',
-  notes: ''
+  notes: '',
+  recommendedPlace: undefined,
+  selectedPlaces: []
 };
 
 export const tripDetailStore = signalStore(
@@ -60,6 +65,12 @@ export const tripDetailStore = signalStore(
     },
     updateNotes(notes: string): void {
       patchState(store, (state) => ({notes}));
+    },
+    updateRecommendedPlace(recommendedPlace: RecommendedPlace[]): void {
+      patchState(store, (state) => ({recommendedPlace}));
+    },
+    updateSelectedPlaces(selectedPlaces: string[]): void {
+      patchState(store, (state) => ({selectedPlaces}));
     },
     resetTripData(): void {
       patchState(store, () => initialState);

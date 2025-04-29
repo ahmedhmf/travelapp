@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="content">
+    <img src="./stepper-images/calendar.svg">
+  </div>
+  <div class="page">
+    <h2 class="title">
+      📅 When are you traveling?
+    </h2>
+    <p class="desc">
+      Choose your travel dates.
+    </p>
+    <mat-form-field>
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" [value]="tripDetailStore.startDate()" (dateChange)="onStartDateChanged($event)" >
+        <input matEndDate placeholder="End date" [value]="tripDetailStore.endDate()" (dateChange)="onEndDateChanged($event)">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+      @if (error()) {
+          <div style="display: flex; align-items: flex-start; justify-content: flex-start; width: 100%">
+              <mat-error>Please select start & end date</mat-error>
+          </div>
+      }
+  </div>
+</div>

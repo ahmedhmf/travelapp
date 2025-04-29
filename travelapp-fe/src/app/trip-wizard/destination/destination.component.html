@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="content">
+    <img src="./stepper-images/world.svg">
+  </div>
+  <div class="page">
+    <h2 class="title">
+      🌍 Where are you traveling?
+    </h2>
+    <p class="desc">
+      Start typing your dream destination.
+    </p>
+    <mat-form-field class="padding-1 full-width" appearance="outline">
+      <mat-label>ex. Cairo</mat-label>
+      <input type="input" [value]="tripDetailStore.destination()" matInput (keyup)="onTextChanged($event)">
+    </mat-form-field>
+    @if (error()) {
+      <div style="display: flex; align-items: flex-start; justify-content: flex-start; width: 100%">
+        <mat-error>Please Enter Destination</mat-error>
+      </div>
+    }
+  </div>
+</div>

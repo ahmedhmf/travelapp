@@ -1,0 +1,62 @@
+.container {
+  margin: 0.5rem;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+
+  .card {
+    border: 1px solid #E5E7EB;
+    border-radius: 20px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .icon {
+    width: 32px;
+    height: 32px;
+    color: #6B7280;
+  }
+
+  .title {
+    color: #6B7280;
+    font-size: 16px;
+    line-height: 1rem;
+  }
+
+  &:hover {
+    border-radius: 20px;
+    transition: all 0.9s ease-in-out;
+
+    .card {
+      border: 2px solid #62C6F2;
+
+      .icon {
+        color: #62C6F2;
+      }
+
+      .title {
+        color: #62C6F2;
+      }
+    }
+  }
+}
+
+.active {
+  border-radius: 20px;
+  transition: all 0.9s ease-in-out;
+
+  .card {
+    border: 2px solid #62C6F2;
+
+    .icon {
+      color: #62C6F2;
+    }
+
+    .title {
+      color: #62C6F2;
+    }
+  }
+}

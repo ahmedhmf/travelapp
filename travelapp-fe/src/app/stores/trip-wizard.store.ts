@@ -18,15 +18,15 @@ export type TripData = {
 }
 
 export const initialState: TripData = {
-  destination: '',
-  startDate: '',
-  endDate: '',
+  destination: 'London',
+  startDate: '4/15/2025',
+  endDate:  '4/16/2025',
   adults: 2,
   elders: 0,
   children: 0,
   childAges: [],
-  interests: [],
   tripStyle: 'Balanced',
+  interests: [],
   notes: '',
   recommendedPlace: undefined,
   selectedPlaces: []
@@ -76,7 +76,4 @@ export const tripDetailStore = signalStore(
       patchState(store, () => initialState);
     },
   })),
-  withComputed((store) => ({
-    tripData: computed(() => (store.adults(), store.elders(), store.children(), store.childAges(), store.interests(), store.tripStyle(), store.notes(), store.destination(), store.startDate(), store.endDate())),
-  }))
 );

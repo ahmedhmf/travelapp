@@ -1,0 +1,3 @@
+<div class="btn" [class.btn-active]="item().active" [class.btn-completed]="item().completed" [class.btn-default]="!item().completed || !item().active">
+  <mat-icon [svgIcon]="item().icon" color='primary' class="icon"></mat-icon>
+</div>

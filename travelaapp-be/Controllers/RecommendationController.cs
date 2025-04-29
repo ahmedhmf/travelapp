@@ -3,8 +3,6 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
 using travelaapp_be.Model;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Security.AccessControl;
 
 namespace travelaapp_be.Controllers
 {
@@ -13,8 +11,8 @@ namespace travelaapp_be.Controllers
     public class RecommendationController : ControllerBase
     {
         private readonly HttpClient _httpClient;
-        private readonly string _openAiKey = Environment.GetEnvironmentVariable("OPENROUTER_API_KEY") ?? "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";
-
+        private readonly string _openAiKey = Environment.GetEnvironmentVariable("OPENROUTER_API_KEY") ?? "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";
+        private readonly string groqKey = "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";
         public RecommendationController()
         {
             _httpClient = new HttpClient();
@@ -25,18 +23,18 @@ namespace travelaapp_be.Controllers
             var prompt = GeneratePrompt(trip);
 
             var requestBody = new
-                                      {
-                                              model = "openai/gpt-3.5-turbo", // or "openai/gpt-3.5-turbo"
-                                              messages = new[]
+            {
+                model = "openai/gpt-3.5-turbo", // or "openai/gpt-3.5-turbo"
+                messages = new[]
                                                                  {
                                                                          new { role = "user", content = prompt }
                                                                  }
-                                      };
+            };
 
             var request = new HttpRequestMessage(HttpMethod.Post, "https://openrouter.ai/api/v1/chat/completions")
-                                  {
-                                          Content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json")
-                                  };
+            {
+                Content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json")
+            };
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _openAiKey);
             request.Headers.Add("HTTP-Referer", "https://yourdomain.com"); // Required by OpenRouter
@@ -51,10 +49,10 @@ namespace travelaapp_be.Controllers
                                            .GetString();
 
             var places = JsonSerializer.Deserialize<List<RecommendedPlace>>(responseJson!, new JsonSerializerOptions
-                                                                                                   {
-                                                                                                           PropertyNameCaseInsensitive = true
-                                                                                                   });
-            if(places == null || !places.Any())
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            if (places == null || !places.Any())
             {
                 return new List<RecommendedPlace>();
             }
@@ -71,23 +69,63 @@ namespace travelaapp_be.Controllers
 
         [HttpPost]
         [Route("plan")]
-        public async Task<List<DailyPlan>> GetPlan(TripData trip)
+        public async Task<TravelPlan> GetPlanGroq(TripData trip)
         {
             var prompt = GenerateCustomPlanPrompt(trip);
 
             var requestBody = new
                                       {
-                                              model = "openai/gpt-3.5-turbo",
+                                              model = "meta-llama/llama-4-scout-17b-16e-instruct",
                                               messages = new[]
                                                                  {
                                                                          new { role = "user", content = prompt }
-                                                                 }
+                                                                 },
+                                              temperature = 0.7
                                       };
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://openrouter.ai/api/v1/chat/completions")
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://api.groq.com/openai/v1/chat/completions")
                                   {
                                           Content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json")
                                   };
+
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", groqKey);
+
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+            var doc = JsonDocument.Parse(json);
+            var content = doc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString();
+            var pFrom = content.IndexOf("```json") + "```json".Length;
+            var pTo = content.LastIndexOf("```");
+            var result = content.Substring(pFrom, pTo - pFrom);
+            var plan = Newtonsoft.Json.JsonConvert.DeserializeObject<TravelPlan>(result);
+            //var plan = JsonSerializer.Deserialize<TravelPlan>(content!, new JsonSerializerOptions
+            //                                                                    {
+            //                                                                            PropertyNameCaseInsensitive = true
+            //                                                                    });
+            return plan;
+        }
+
+        [HttpPost]
+        [Route("plan1")]
+        public async Task<TravelPlan> GetPlan(TripData trip)
+        {
+            var prompt = GenerateCustomPlanPrompt(trip);
+
+            var requestBody = new
+            {
+                model = "openai/gpt-3.5-turbo",
+                messages = new[]
+                                                                 {
+                                                                         new { role = "user", content = prompt }
+                                                                 }
+            };
+
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://openrouter.ai/api/v1/chat/completions")
+            {
+                Content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json")
+            };
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _openAiKey);
             request.Headers.Add("HTTP-Referer", "https://yourdomain.com");
@@ -101,12 +139,12 @@ namespace travelaapp_be.Controllers
                                            .GetProperty("content")
                                            .GetString();
 
-            var plan = JsonSerializer.Deserialize<List<DailyPlan>>(responseJson!, new JsonSerializerOptions
-                                                                                          {
-                                                                                                  PropertyNameCaseInsensitive = true
-                                                                                          });
+            var plan = JsonSerializer.Deserialize<TravelPlan>(responseJson!, new JsonSerializerOptions
+                                                                                           {
+                                                                                                   PropertyNameCaseInsensitive = true
+                                                                                           });
 
-            return plan ?? new List<DailyPlan>();
+            return plan ?? new TravelPlan();
         }
 
 
@@ -159,65 +197,285 @@ namespace travelaapp_be.Controllers
             var places = string.Join(", ", request.places);
             var interests = request.Interests != null ? string.Join(", ", request.Interests) : "Not specified";
             var notes = string.IsNullOrWhiteSpace(request.Notes) ? "None" : request.Notes;
+            var travelers = $"{request.Adults} adults, {request.Elders} elder(s), {request.Children} child(ren)";
             var childAges = request.ChildAges != null && request.ChildAges.Any() ? string.Join(", ", request.ChildAges) : "Not specified";
-
             return $@"
-You are a travel assistant helping a user build a highly detailed daily itinerary for their trip.
+You are a travel planning assistant. Based on the input details, generate a detailed day-by-day travel itinerary in JSON format.
 
-Destination: {request.Destination}
-Dates: {dates}
-Travel Group:
-- Adults: {request.Adults}
-- Elders: {request.Elders}
-- Children: {request.Children}
-- Child Ages: {childAges}
-Interests: {interests}
-Notes: {notes}
-Selected Locations: {places}
-Schedule Pace: {request.TripStyle} (Relaxed, Balanced, or Packed)
+### INPUT
+Destination: {request.Destination}  
+Start Date: {request.StartDate}   
+End Date: {request.EndDate} 
+Travelers: {travelers}  
+Trip Style: {request.TripStyle}  
+Interests: {interests}  
+Notes: The elder prefers shorter walking distances. Kids prefer some games or zoos or something like this
 
-Please:
-- Distribute the selected locations across the trip dates
-- Respect the user's trip pace: relaxed (few places), balanced (moderate), or packed (full days)
-- Consider weather, accessibility for elders, and age-appropriateness for children
-- Allocate realistic travel time between places and avoid over-scheduling
-- Include estimated time blocks for each activity (e.g., 10:00–11:30 Visit Buda Castle)
-- Include a short description of each activity
-- Include breaks for lunch, rest, or free time
-- For each location included, add:
-  - Whether advance booking is required, recommended, or not needed
-  - The place type (e.g., museum, park, restaurant)
-  - A Google Maps link
-  - A direct website link if available
-  - If it's a restaurant, add a menu link and a reservation link if available
+### REQUIREMENTS
 
-Return ONLY a JSON array in the following format:
-[
-  {{
-    ""date"": ""YYYY - MM - DD"",
-    ""summary"": ""Short overview of the day"",
-    ""schedule"": [
-      {{
-                {{
-                    ""time"": ""09:30–11:00"",
-        ""activity"": ""Visit Buda Castle"",
-        ""description"": ""Explore the historic castle with panoramic views of the city."",
-        ""placeType"": ""Historical site"",
-        ""bookingAdvice"": ""Recommended to book ahead"",
-        ""googleMapsLink"": ""https://maps.google.com/?q=Buda+Castle"",
-        ""website"": ""https://budacastle.hu"",
-        ""menuLink"": null,
-        ""reservationLink"": null
-      }}
-            }}
-    ]
+Generate a JSON object with the following structure:
+
+{{
+  ""city"": ""string"",
+  ""duration"": ""e.g. 4 days"",
+  ""preferences"": [ ""list of interests"" ],
+  ""itinerary"": {{
+    ""day_1"": {{
+      ""date"": ""YYYY-MM-DD"",
+      ""weather"": ""Typical weather for the city during the date (e.g. Sunny, 27°C)"",
+      ""schedule"": [
+        {{
+          ""time"": ""08:30"",
+          ""activity"": ""Breakfast"",
+          ""options"": {{
+            ""cheap"": {{ ...restaurantDetails }},
+            ""mid"": {{ ...restaurantDetails }},
+            ""expensive"": {{ ...restaurantDetails }}
+          }}
+        }},
+        {{
+          ""time"": ""10:00"",
+          ""activity"": ""Visit to Colosseum"",
+          ""details"": {{
+            ""name"": ""Colosseum"",
+            ""description"": ""Iconic Roman amphitheater known for gladiator battles."",
+            ""website"": ""https://www.coopculture.it/en/colosseo-e-shop.cfm"",
+            ""googleMapsUrl"": ""https://maps.google.com/?q=Colosseum+Rome"",
+            ""reservationRequirement"": ""MustReserve"",
+            ""reservationLink"": ""https://www.coopculture.it/en/ticket_office.cfm""
+          }}
+        }},
+        ...
+        {{
+          ""time"": ""19:00"",
+          ""activity"": ""Dinner"",
+          ""options"": {{
+            ""cheap"": {{ ...restaurantDetails }},
+            ""mid"": {{ ...restaurantDetails }},
+            ""expensive"": {{ ...restaurantDetails }}
+          }}
+        }}
+      ]
+    }},
+    ...
   }}
-    }}
-]
-";
-    }
+}}
 
-private string GeneratePrompt(TripData trip)
+---
+
+### STRUCTURE DEFINITIONS:
+
+Each restaurant option includes:
+
+```json
+{{
+  ""name"": ""string"",
+  ""description"": ""optional string"",
+  ""website"": ""url"",
+  ""googleMapsUrl"": ""url"",
+  ""reservationRequirement"": ""MustReserve | Recommended | NotRequired"",
+  ""reservationLink"": ""url or null"",
+  ""menuLink"": ""url"",
+  ""phoneNumber"": ""string""
+}}
+
+Each activity (non-meal) should include a ""details"" object with:
+
+{{
+  ""name"": ""string"",
+  ""description"": ""short description"",
+  ""website"": ""url"",
+  ""googleMapsUrl"": ""url"",
+  ""reservationRequirement"": ""MustReserve | Recommended | NotRequired"",
+  ""reservationLink"": ""url or null""
+}}
+
+LOGIC & CONSIDERATIONS
+Use the date range to calculate number of days and assign date to each day.
+
+Match number of activities to the trip style:
+
+""relaxed"" = 2–3 slow-paced activities
+
+""balanced"" = 3–4 activities per day with breaks
+
+""packed"" = 5–6 active items per day
+
+Adjust the itinerary for:
+
+Children: include playful, engaging stops
+
+Elders: avoid long walking, stairs, or standing in queues
+
+Group attractions that are geographically close on the same day
+
+Suggest nearby restaurants for each meal (within walking distance of previous activity)
+
+Simulate realistic travel time and traffic spacing between events
+
+Assume typical weather for that city on those dates
+
+RESPONSE FORMAT
+Return only a valid JSON object matching the above schema.
+Do not include any explanation, markdown, or additional commentary.
+
+### NOW GENERATE THE ITINERARY
+";
+//            return $@"
+//You are a professional travel planner.
+
+//Please create a detailed day-by-day itinerary for a trip to **{request.Destination}** from **{request.StartDate}** to **{request.EndDate}**.
+
+//---
+
+//### 🧍 Travelers:
+//- Adults: {request.Adults}
+//- Elders: {request.Elders}
+//- Children: {request.Children}
+//- Child Ages: {childAges}
+
+//---
+
+//### 🎯 Interests:
+//{interests}
+
+//### 📝 Notes from the user:
+//{notes}
+
+//### 🗂 Trip Style:
+//**{request.TripStyle}**
+
+//- Relaxed → 2–3 slow-paced activities/day  
+//- Balanced → 3–5 activities/day  
+//- Packed → up to 6–7 structured activities/day
+
+//---
+
+//### 📍 Must-include Locations:
+//{places}
+
+//---
+
+//## 📅 Your Task:
+
+//Generate one entry **per day** for **each day from {request.StartDate} to {request.EndDate}**.  
+//Do **not group or skip days or skip meals** — one object per date, even if some days are light.
+
+//Each day should include:
+//- `date`: The day of the itinerary (YYYY-MM-DD)
+//- `summary`: One-sentence summary
+//- `schedule`: A list of time blocks (from 09:00 to 20:00)
+
+//---
+
+//### 🕒 Each schedule item must include:
+
+//#### For activities:
+//- ""time"": time range
+//- ""activity"": short name
+//- ""description"": brief explanation
+//- ""placeType"": e.g., museum, park, viewpoint
+//- ""bookingAdvice"": Required / Recommended / Not needed
+//- ""googleMapsLink"": Google Maps link
+//- ""website"": official website (if available)
+//- ""menuLink"": null
+//- ""reservationLink"": null
+
+//#### For meals (Lunch or Dinner):
+//- ""time"": time block for lunch or dinner
+//- ""activity"": ""Lunch"" or ""Dinner""
+//- ""placeType"": ""Meal""
+//- ""description"": e.g., ""Choose from these great restaurants""
+//- ""options"": an array of 3 restaurant objects, one per price range:
+//  - Each object must contain:
+//            - ""name""
+//            - ""priceLevel"": ""cheap"", ""moderate"", or ""expensive""
+//            - ""description"": what kind of food and atmosphere
+//            - ""googleMapsLink""
+//            - ""website""
+//            - ""menuLink""
+//            - ""reservationLink""
+
+//        -- -
+
+//### ✅ Output Format (only return JSON!):
+
+//```json
+//[
+//  {{
+//                {{
+//                    ""date"": ""2025-04-20"",
+//            ""summary"": ""Explore Castle Hill and enjoy traditional Hungarian cuisine."",
+//    ""schedule"": [
+//      {{
+//                {{
+//                    {{
+//                            ""time"": ""09:30–11:00"",
+//        ""activity"": ""Visit Buda Castle"",
+//        ""description"": ""Start your day with panoramic views and rich history."",
+//        ""placeType"": ""Historical site"",
+//        ""bookingAdvice"": ""Recommended"",
+//        ""googleMapsLink"": ""https://maps.google.com/?q=Buda+Castle"",
+//        ""website"": ""https://budacastle.hu"",
+//        ""menuLink"": null,
+//        ""reservationLink"": null
+//      }}
+//                    }},
+//      {{
+//                        {{
+//                            ""time"": ""13:00–14:30"",
+//        ""activity"": ""Lunch"",
+//        ""description"": ""Choose from these local restaurants for a midday meal."",
+//        ""placeType"": ""Meal"",
+//        ""bookingAdvice"": ""Recommended"",
+//        ""googleMapsLink"": null,
+//        ""website"": null,
+//        ""menuLink"": null,
+//        ""reservationLink"": null,
+//        ""options"": [
+//          {{
+//                                {{
+//                                    ""name"": ""Paprika Vendéglő"",
+//            ""priceLevel"": ""cheap"",
+//            ""description"": ""Classic Hungarian cuisine in a cozy setting."",
+//            ""googleMapsLink"": ""https://maps.google.com/?q=Paprika+Vendeglo"",
+//            ""website"": ""https://paprikavendeglo.hu"",
+//            ""menuLink"": ""https://paprikavendeglo.hu/menu"",
+//            ""reservationLink"": null
+//          }}
+//                            }},
+//          {{
+//                                {{
+//                                    ""name"": ""Menza"",
+//            ""priceLevel"": ""moderate"",
+//            ""description"": ""Trendy spot serving Hungarian bistro dishes."",
+//            ""googleMapsLink"": ""https://maps.google.com/?q=Menza+Budapest"",
+//            ""website"": ""https://menzaetterem.hu"",
+//            ""menuLink"": ""https://menzaetterem.hu/menu"",
+//            ""reservationLink"": ""https://menzaetterem.hu/reservations""
+//          }}
+//                            }},
+//          {{
+//                                {{
+//                                    ""name"": ""Costes Downtown"",
+//            ""priceLevel"": ""expensive"",
+//            ""description"": ""Michelin-starred fine dining restaurant with modern flair."",
+//            ""googleMapsLink"": ""https://maps.google.com/?q=Costes+Downtown"",
+//            ""website"": ""https://costes.hu/downtown"",
+//            ""menuLink"": ""https://costes.hu/menu"",
+//            ""reservationLink"": ""https://costes.hu/reservations""
+//          }}
+//                            }}
+//        ]
+//      }}
+//                    }}
+//    ]
+//  }}
+//            }}
+//]";
+        }
+
+        private string GeneratePrompt(TripData trip)
         {
             return $@"
 You are a travel assistant.
@@ -249,7 +507,7 @@ Example:
 
             Use real, publicly hosted images(Wikimedia, Unsplash, etc.). No explanation or extra text.
             ";
-}
+        }
 
     }
 }

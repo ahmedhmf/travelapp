@@ -1,0 +1,41 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.btn-default {
+  border: 1px solid #6B7280;
+  background-color: #FFFFFF;
+
+  mat-icon {
+    color: #6B7280;
+  }
+}
+
+.btn-active {
+  border: 2px solid #6B7280;
+  background-color: #62C6F2;
+
+  mat-icon {
+    color: #FFFFFF;
+  }
+}
+
+.btn-completed {
+  border: 2px solid #6B7280;
+  background-color: #A7F3D0;
+
+  mat-icon {
+    color: #FFFFFF;
+  }
+}

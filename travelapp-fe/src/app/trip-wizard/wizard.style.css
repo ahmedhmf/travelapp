@@ -1,0 +1,36 @@
+.container {
+  height: 90%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.content {
+  display: flex;
+  align-items: flex-start
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center
+}
+
+.title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 0.5rem
+}
+
+.desc {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 0.5rem
+}
+
+.full-width {
+  width: 100%
+}

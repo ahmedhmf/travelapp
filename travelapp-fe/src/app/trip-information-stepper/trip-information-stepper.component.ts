@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatStepperModule} from "@angular/material/stepper";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -12,6 +12,8 @@ import {TripStepSpecialNotesComponent} from "./trip-step-special-notes/trip-step
 import {TripStepLoadComponent} from "./trip-step-load/trip-step-load.component";
 import {TripStepChoicesComponent} from "./trip-step-choices/trip-step-choices.component";
 import {TripStepGeneratePlanComponent} from "./trip-step-generate-plan/trip-step-generate-plan.component";
+import {MatDialog} from "@angular/material/dialog";
+import {TripWizardComponent} from "../trip-wizard/trip-wizard.component";
 
 @Component({
   selector: 'app-trip-information-stepper',
@@ -27,6 +29,27 @@ import {TripStepGeneratePlanComponent} from "./trip-step-generate-plan/trip-step
 })
 export class TripInformationStepperComponent {
   currentStep = 0;
-  nextStep() { this.currentStep++; }
-  previousStep() { this.currentStep--; }
+
+  nextStep() {
+    this.currentStep++;
+  }
+
+  previousStep() {
+    this.currentStep--;
+  }
+
+  readonly dialog = inject(MatDialog);
+
+  constructor() {
+    this.dialog.open(TripWizardComponent, {
+      width: '1280px',
+      height: '605px',
+      enterAnimationDuration: '500ms',
+      exitAnimationDuration: '100ms',
+      disableClose: true, // optional
+      autoFocus: true,
+      hasBackdrop: true,
+      panelClass: 'custom-modalbox',
+    });
+  }
 }

@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="content">
+    <img src="./stepper-images/exploring.svg">
+  </div>
+  <div class="page">
+    <h2 class="title">
+      🧭 What are you excited to explore?
+    </h2>
+    <p class="desc">
+      Select your favorite interests — culture, adventure, food, and more.
+    </p>
+    <div class="full-width items">
+      <app-interest-card label="Culture" icon="interest-culture"
+                         [active]="this.tripDetailStore.interests().includes('Culture')"
+                         (click)="toggleInterest('Culture')"></app-interest-card>
+      <app-interest-card label="Adventure" icon="interest-adventure"
+                         [active]="this.tripDetailStore.interests().includes('Adventure')"
+                         (click)="toggleInterest('Adventure')"></app-interest-card>
+      <app-interest-card label="Relaxation" icon="interest-relaxation"
+                         [active]="this.tripDetailStore.interests().includes('Relaxation')"
+                         (click)="toggleInterest('Relaxation')"></app-interest-card>
+      <app-interest-card label="Food" icon="interest-food" [active]="this.tripDetailStore.interests().includes('Food')"
+                         (click)="toggleInterest('Food')"></app-interest-card>
+      <app-interest-card label="History" icon="interest-history"
+                         [active]="this.tripDetailStore.interests().includes('History')"
+                         (click)="toggleInterest('History')"></app-interest-card>
+      <app-interest-card label="Nature" icon="interest-nature"
+                         [active]="this.tripDetailStore.interests().includes('Nature')"
+                         (click)="toggleInterest('Nature')"></app-interest-card>
+      <app-interest-card label="Shopping" icon="interest-shopping"
+                         [active]="this.tripDetailStore.interests().includes('Shopping')"
+                         (click)="toggleInterest('Shopping')"></app-interest-card>
+      <app-interest-card label="NightLife" icon="interest-nightlife"
+                         [active]="this.tripDetailStore.interests().includes('NightLife')"
+                         (click)="toggleInterest('NightLife')"></app-interest-card>
+      <app-interest-card label="Family" icon="interest-family-activities"
+                         [active]="this.tripDetailStore.interests().includes('Family')"
+                         (click)="toggleInterest('Family')"></app-interest-card>
+      <app-interest-card label="Arts" icon="interest-art" [active]="this.tripDetailStore.interests().includes('Arts')"
+                         (click)="toggleInterest('Arts')"></app-interest-card>
+      <app-interest-card label="Sports" icon="interest-sports"
+                         [active]="this.tripDetailStore.interests().includes('Sports')"
+                         (click)="toggleInterest('Sports')"></app-interest-card>
+      <app-interest-card label="Wildlife" icon="interest-wildlife"
+                         [active]="this.tripDetailStore.interests().includes('Wildlife')"
+                         (click)="toggleInterest('Wildlife')"></app-interest-card>
+    </div>
+  </div>
+</div>

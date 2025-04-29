@@ -1,0 +1,8 @@
+<div style="display: flex; justify-content: center; align-items: center; margin: 1rem">
+  @for (step of steps(); track step; let i = $index) {
+    <app-stepper-item [item]="step"></app-stepper-item>
+    @if (i < steps().length - 1) {
+      <div class="hline"></div>
+    }
+  }
+</div>

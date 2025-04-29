@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="content">
+    <img src="./stepper-images/relaxed.svg">
+  </div>
+  <div class="page">
+    <h2 class="title">
+      🚀 What kind of trip are you dreaming about?
+    </h2>
+    <p class="desc">
+      Pick a style that matches your adventure vibe.
+    </p>
+    <div class="full-width items">
+      <app-trip-style-card icon="trip-style-relaxed" label="Relaxed" [active] = "tripDetailStore.tripStyle() === 'Relaxed'"
+                           desc="Take it slow and easy. Lots of free time." (click)="updateTripStyle('Relaxed')"></app-trip-style-card>
+      <app-trip-style-card icon="trip-style-balanced" label="Balanced" [active] = "tripDetailStore.tripStyle() === 'Balanced'"
+                           desc="A mix of activities and free moments." (click)="updateTripStyle('Balanced')"></app-trip-style-card>
+      <app-trip-style-card icon="trip-style-packed" label="Packed"  [active] = "tripDetailStore.tripStyle() === 'Packed'"
+                           desc="Full of activities and adventures every day!" (click)="updateTripStyle('Packed')"></app-trip-style-card>
+    </div>
+  </div>
+</div>

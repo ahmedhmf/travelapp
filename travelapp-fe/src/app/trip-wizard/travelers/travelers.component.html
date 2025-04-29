@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="content">
+    <img src="./stepper-images/friends.svg">
+  </div>
+  <div class="page">
+    <h2 class="title">
+      👨‍👩‍👧‍👦 Who is traveling with you?
+    </h2>
+    <p class="desc">
+      Tell us how many adults, kids, and elders are traveling.
+    </p>
+    <div class="full-width">
+      @if (error()) {
+        <div style="display: flex; align-items: flex-start; justify-content: flex-start; width: 100%">
+          <mat-error>Please select at least one adult or elder</mat-error>
+        </div>
+      }
+      <div class="items">
+        <p class="item-label">
+          Adults:
+        </p>
+        <app-counter [value]="this.tripDetailStore.adults()" (minusPressed)="onAdultRemoved()" (plusPressed)="onAdultAdded()"></app-counter>
+      </div>
+      <div class="items">
+        <p class="item-label">
+          Elders:
+        </p>
+        <app-counter [value]="this.tripDetailStore.elders()" (plusPressed)="onElderAdded()" (minusPressed)="onElderRemoved()"></app-counter>
+      </div>
+      <div class="items">
+        <p class="item-label">
+          Children:
+        </p>
+        <app-counter [value]="this.tripDetailStore.children()" (plusPressed)="onChildAdded()" (minusPressed)="onChildRemoved()"></app-counter>
+      </div>
+    </div>
+  </div>
+</div>

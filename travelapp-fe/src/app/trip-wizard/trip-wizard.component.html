@@ -1,0 +1,30 @@
+<mat-dialog-content class="mat-typography">
+  <app-stepper [steps]="stepperItems"></app-stepper>
+  <div style="display: flex; align-items: flex-start;justify-content: center">
+    @switch (store.page()) {
+      @case (0) {
+        <app-destination style="width: 100%"></app-destination>
+      }
+      @case (1) {
+        <app-dates style="width: 100%"></app-dates>
+      }
+      @case (2) {
+        <app-travelers style="width: 100%"></app-travelers>
+      }
+      @case (3) {
+        <app-trip-style style="width: 100%"></app-trip-style>
+      }
+      @case (4) {
+        <app-interests style="width: 100%"></app-interests>
+      }
+      @case (5) {
+        <app-notes style="width: 100%"></app-notes>
+      }
+    }
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="onPrevClick()" [disabled]="store.prevButtonDisabled()">Previous</button>
+  <button mat-stroked-button (click)="onNextClick()" [hidden]="store.nextButtonDisabled()" [disabled]="!isPageValid()">Next</button>
+  <button mat-stroked-button (click)="onFinishClick()" [hidden]="!store.nextButtonDisabled()" style="color: #62C6F2">Finish</button>
+</mat-dialog-actions>

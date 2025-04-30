@@ -30,7 +30,8 @@ namespace travelaapp_be.Controllers
                 Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json")
             };
 
-            httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            httpRequest.Headers.Add("apikey", apiKey);
+            httpRequest.Headers.Add("Authorization", $"Bearer {apiKey}");
 
             var response = await myHttpClient.SendAsync(httpRequest);
             var body = await response.Content.ReadAsStringAsync();

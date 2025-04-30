@@ -1,0 +1,35 @@
+@use '../../../themes/variables' as *;
+
+.wanderly-footer {
+  background-color: $color-footer-bg;
+  color: $color-text-light;
+  padding: 3rem;
+
+  .footer-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      justify-content: space-around;
+      text-align: left;
+    }
+
+    .footer-item {
+      .footer-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: $color-text-light;
+        margin-bottom: 0.25rem;
+      }
+
+      .footer-content {
+        font-weight: 700;
+        color: $color-text-light;
+        font-size: 1rem;
+      }
+    }
+  }
+}

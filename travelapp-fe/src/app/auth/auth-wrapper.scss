@@ -1,0 +1,74 @@
+@use '../../themes/variables' as *;
+.auth-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.auth-image {
+  flex: 1;
+  background-color: $color-accent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+
+    @media (max-width: 768px) {
+      height: 250px;
+    }
+  }
+}
+
+.auth-form {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: $color-light-bg;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
+    button {
+      margin-top: 1rem;
+    }
+  }
+
+  .auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+
+    a {
+      color: $color-primary;
+      font-weight: 500;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

@@ -80,7 +80,7 @@ export class TripWizardComponent {
       notes: this.tripDetailStore.notes(),
       places: this.tripDetailStore.selectedPlaces()
     };
-    this.http.post<RecommendedPlace[]>('http://localhost:5282/api/recommendation/plan',data )
+    this.http.post<RecommendedPlace[]>('https://travelapp-dy97.onrender.com/api/recommendation/plan',data )
       .subscribe(res => {
         console.log(res);
       }, err => {

@@ -1,0 +1,139 @@
+.how-we-work {
+  background-color: #f4b400; // yellow background
+  color: #111;
+  text-align: center;
+  padding: 4rem 2rem;
+
+  .subtitle {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-top: 0.5rem;
+  }
+
+  .steps {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 3rem;
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .icon-circle {
+        background-color: #111;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+
+        mat-icon {
+          font-size: 40px;
+        }
+
+        .step-number {
+          position: absolute;
+          top: -10px;
+          right: -10px;
+          background: white;
+          color: black;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          font-size: 0.9rem;
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .step-label {
+        margin-top: 1rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+.how-we-work-modern {
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: white;
+  text-align: center;
+  padding: 5rem 2rem;
+
+  .section-subtitle {
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+  }
+
+  .step-row {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+
+  .step-block {
+    max-width: 300px;
+    margin: auto;
+
+    .step-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      display: inline-block;
+    }
+
+    .step-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-text {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.85);
+    }
+  }
+}

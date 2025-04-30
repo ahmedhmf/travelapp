@@ -1,0 +1,32 @@
+<div class="auth-container">
+  <!-- Left side: Image -->
+  <div class="auth-image">
+    <img src="./images/login.svg" alt="Travel illustration" />
+  </div>
+
+  <!-- Right side: Login Form -->
+  <div class="auth-form">
+    <mat-card class="auth-card">
+      <h2 class="mat-headline-4">Sign In to Wanderly</h2>
+
+      <form>
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" required />
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Sign In</button>
+      </form>
+
+      <p class="auth-footer">
+        Don’t have an account?
+        <a routerLink="/signup">Sign up</a>
+      </p>
+    </mat-card>
+  </div>
+</div>

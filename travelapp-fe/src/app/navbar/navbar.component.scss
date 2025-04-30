@@ -1,0 +1,142 @@
+@use '../../themes/variables' as *;
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0.5rem 2rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: transparent;
+  color: $color-text-dark;
+
+  &.scrolled {
+    background-color: $color-light-bg;
+    color: $color-text-dark;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    a,
+    .mat-icon {
+      color: $color-text-dark !important;
+    }
+
+    .navbar-cta {
+      border-color: $color-primary;
+      color: $color-primary;
+    }
+  }
+
+  .navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .navbar-logo img {
+    height: 40px;
+  }
+
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    a {
+      color: inherit;
+      font-weight: 500;
+      text-transform: none;
+    }
+  }
+
+  .navbar-auth {
+    display: flex;
+    gap: 1rem;
+
+    a {
+      font-weight: 500;
+    }
+  }
+
+  .navbar-user {
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  .navbar-toggle {
+    display: none;
+    color: $color-text-dark;
+  }
+
+  @media (max-width: 768px) {
+    .navbar-links {
+      display: none;
+    }
+
+    .navbar-toggle {
+      display: block;
+      color: $color-text-dark;
+    }
+  }
+}
+
+// Fullscreen mobile menu
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: $color-light-bg;
+  color: $color-text-dark;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+
+  .close-button {
+    position: fixed;
+    top: 1rem;
+    left: 80vw;
+    color: $color-text-dark;
+  }
+
+  .mobile-menu-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+
+    a {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: $color-text-dark;
+    }
+
+    .navbar-cta {
+      font-size: 1.2rem;
+      border-color: $color-primary;
+      color: $color-primary;
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.cdk-overlay-container {
+  position: fixed !important;
+  z-index: 1000;
+}

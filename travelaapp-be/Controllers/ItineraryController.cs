@@ -2,10 +2,12 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
-using travelaapp_be.Model;
+using travelaapp_be.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace travelaapp_be.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ItineraryController : ControllerBase

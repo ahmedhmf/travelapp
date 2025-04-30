@@ -1,9 +1,0 @@
-<h3>Trip Style</h3>
-<div style="display: flex; flex-direction: column">
-<mat-form-field appearance="fill">
-  <mat-label>Special Notes</mat-label>
-  <textarea matInput [value]="tripStore.notes()" (input)="updateSpecialNotes( $event)"></textarea>
-</mat-form-field>
-<button mat-button (click)="back.emit()">Back</button>
-  <button mat-button (click)="next.emit()">next</button>
-</div>

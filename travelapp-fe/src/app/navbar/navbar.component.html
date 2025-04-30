@@ -1,0 +1,63 @@
+<mat-toolbar class="navbar" [class.scrolled]="scrolled" color="transparent">
+  <div class="navbar-content">
+    <div class="navbar-logo" (click)="scrollToSection('hero')">
+      <img src="assets/images/logo.svg" alt="Wanderly"/>
+    </div>
+
+    <nav class="navbar-links">
+      <a mat-button (click)="scrollToSection('hero')" >Home</a>
+      <a mat-button (click)="scrollToSection('how-it-works')">How It Works</a>
+      <a mat-button (click)="scrollToSection('why-wanderly')">Why Wanderly</a>
+
+      <ng-container *ngIf="!isLoggedIn">
+        <div class="navbar-auth">
+          <a mat-button routerLink="/login">Sign In</a>
+          <a mat-stroked-button color="primary" routerLink="/signup">Sign Up</a>
+        </div>
+      </ng-container>
+
+      <div class="navbar-user" [hidden]="!isLoggedIn">
+        <button mat-icon-button [matMenuTriggerFor]="userMenu">
+          <img class="user-avatar" [src]="userAvatarUrl" />
+        </button>
+      </div>
+    </nav>
+
+    <button mat-icon-button class="navbar-toggle" (click)="toggleMobileMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<!-- Mat menu (place at root level!) -->
+<mat-menu #userMenu="matMenu" yPosition="below" xPosition="after">
+  <button mat-menu-item routerLink="/profile">My Profile</button>
+  <button mat-menu-item routerLink="/trips">My Trips</button>
+  <button mat-menu-item routerLink="/settings">Settings</button>
+  <button mat-menu-item (click)="logout()">Log Out</button>
+</mat-menu>
+
+<!-- Full-screen mobile menu -->
+@if (mobileMenuOpen) {
+  <div class="mobile-menu">
+    <button mat-icon-button class="close-button" (click)="toggleMobileMenu()">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <div class="mobile-menu-links">
+      <a mat-button (click)="scrollToSection('hero')">Home</a>
+      <a mat-button (click)="scrollToSection('how-it-works')">How It Works</a>
+      <a mat-button (click)="scrollToSection('why-wanderly')">Why Wanderly</a>
+      @if (!isLoggedIn) {
+        <a mat-button routerLink="/login" (click)="toggleMobileMenu()">Sign In</a>
+        <a mat-stroked-button color="primary" routerLink="/signup" (click)="toggleMobileMenu()">Sign Up</a>
+      } @else {
+        <img class="user-avatar" [src]="userAvatarUrl"/>
+        <a mat-button routerLink="/profile" (click)="toggleMobileMenu()">My Profile</a>
+        <a mat-button routerLink="/trips" (click)="toggleMobileMenu()">My Trips</a>
+        <a mat-button routerLink="/settings" (click)="toggleMobileMenu()">Settings</a>
+        <a mat-button (click)="logout()">Log Out</a>
+      }
+    </div>
+  </div>
+}

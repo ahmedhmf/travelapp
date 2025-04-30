@@ -2,7 +2,8 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
-using travelaapp_be.Model;
+using travelaapp_be.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace travelaapp_be.Controllers
 {
@@ -17,6 +18,8 @@ namespace travelaapp_be.Controllers
         {
             _httpClient = new HttpClient();
         }
+
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<List<RecommendedPlace>>> GetRecommendations([FromBody] TripData trip)
         {
@@ -67,6 +70,7 @@ namespace travelaapp_be.Controllers
 
         }
 
+        [Authorize]
         [HttpPost]
         [Route("plan")]
         public async Task<TravelPlan> GetPlanGroq(TripData trip)
@@ -107,6 +111,7 @@ namespace travelaapp_be.Controllers
             return plan;
         }
 
+        [Authorize]
         [HttpPost]
         [Route("plan1")]
         public async Task<TravelPlan> GetPlan(TripData trip)

@@ -1,7 +1,0 @@
-<h3>Trip Style</h3>
-<div style="display: flex; flex-direction: column; gap: 1rem; justify-content: center;">
-  @for (location of tripStore.recommendedPlace(); track location) {
-    <app-image-button [image]="location.imageUrl" [label]="location.name" [isCheckBox]="true" (checkBoxChecked)="locationChecked(location.name, $event)"></app-image-button>
-  }
-<button mat-button (click)="next.emit()">next</button>
-</div>

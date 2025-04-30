@@ -1,0 +1,38 @@
+<div class="auth-container">
+  <!-- Left side: Image -->
+  <div class="auth-image">
+    <img src="./images/signup.svg" alt="Explore the world"/>
+  </div>
+
+  <!-- Right side: Signup Form -->
+    <div class="auth-form">
+      <mat-card class="auth-card">
+        <h2 class="mat-headline-4">Create Your Wanderly Account</h2>
+
+        <form (submit)="signup()">
+          <mat-form-field appearance="fill">
+            <mat-label>Full Name</mat-label>
+            <input matInput type="text" required/>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input [(ngModel)]="email" [ngModelOptions]="{standalone: true}" matInput type="email" required/>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput [(ngModel)]="password" [ngModelOptions]="{standalone: true}" type="password" required/>
+          </mat-form-field>
+          <p *ngIf="success" style="color:green">{{ success }}</p>
+          <p *ngIf="error" style="color:red">{{ error }}</p>
+          <button mat-raised-button color="primary" type="submit">Sign Up</button>
+        </form>
+
+        <p class="auth-footer">
+          Already have an account?
+          <a routerLink="/login">Sign In</a>
+        </p>
+      </mat-card>
+    </div>
+</div>

@@ -1,16 +1,18 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
+import {NavbarComponent} from "./navbar/navbar.component";
+declare const AOS: any;
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'travelapp-fe';
   private matIconRegistry = inject(MatIconRegistry);
   private domSanitizer= inject(DomSanitizer);
@@ -110,5 +112,12 @@ export class AppComponent {
       "interest-wildlife",
       this.domSanitizer.bypassSecurityTrustResourceUrl("../icons/paw-print.svg")
     );
+  }
+
+  ngOnInit(): void {
+    AOS.init({
+      duration: 800,
+      once: true, // only animate once per element
+    });
   }
 }

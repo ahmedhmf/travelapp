@@ -1,0 +1,16 @@
+<section class="how-it-works" id="how-it-works">
+  <h1 class="mat-headline-3" data-aos="fade-up">HOW IT WORKS</h1>
+  <div class="steps-grid">
+    @for (step of steps; track step; let i = $index) {
+      <div class="step-card" data-aos="flip-up" [attr.data-aos-delay]="i * 200">
+        <img [src]="step.image" [alt]="step.title" class="step-image"/>
+        <div class="step">
+          <div class="step-text">
+            <h3 class="mat-subtitle-1 step-title">{{ step.title }}</h3>
+            <p class="mat-body-2 step-description">{{ step.description }}</p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,16 @@
+<section class="why-wanderly" id="why-wanderly">
+  <h2 class="mat-headline-3" data-aos="fade-left">✨ Why Choose Wanderly?</h2>
+
+  <div class="feature-grid">
+    @for (item of features; track item; let i = $index) {
+      <div class="feature" data-aos="zoom-in" [attr.data-aos-delay]="i * 200">
+        <img [src]="item.image" [alt]="item.title" class="feature-img"/>
+
+        <div class="feature-box">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.description }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</section>

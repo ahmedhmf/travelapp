@@ -36,7 +36,24 @@ namespace travelaapp_be.Controllers
             var response = await myHttpClient.SendAsync(httpRequest);
             var body = await response.Content.ReadAsStringAsync();
 
-            return StatusCode((int)response.StatusCode, body);
+            if (!response.IsSuccessStatusCode)
+                return StatusCode((int)response.StatusCode, body);
+            // Parse user ID from response JSON
+            using var doc = JsonDocument.Parse(body);
+            var userId = doc.RootElement.GetProperty("id").GetString();
+
+            // Insert or update full name in profiles
+            var connectionString = config.GetConnectionString("SupabaseDb");
+            await using var conn = new Npgsql.NpgsqlConnection(connectionString);
+            await conn.OpenAsync();
+
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = "UPDATE public.profiles SET full_name = @name WHERE id = @id;";
+            cmd.Parameters.AddWithValue("name", request.FullName);
+            cmd.Parameters.AddWithValue("id", Guid.Parse(userId));
+            await cmd.ExecuteNonQueryAsync();
+
+            return Ok(new { message = "Signup successful" });
         }
 
         [HttpPost("login")]

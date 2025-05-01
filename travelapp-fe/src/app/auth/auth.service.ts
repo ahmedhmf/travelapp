@@ -9,8 +9,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  signup(email: string, password: string) {
-    return this.http.post(`${this.apiUrl}/signup`, { email, password });
+  signup(email: string, password: string, fullName: string) {
+    return this.http.post(`${this.apiUrl}/signup`, { email, password, fullName });
   }
 
   login(email: string, password: string) {

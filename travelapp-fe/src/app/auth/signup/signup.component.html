@@ -5,34 +5,58 @@
   </div>
 
   <!-- Right side: Signup Form -->
-    <div class="auth-form">
-      <mat-card class="auth-card">
-        <h2 class="mat-headline-4">Create Your Wanderly Account</h2>
+  <div class="auth-form">
+    <mat-card class="auth-card">
+      <h2 class="mat-headline-4">Create Your Wanderly Account</h2>
 
-        <form (submit)="signup()">
-          <mat-form-field appearance="fill">
-            <mat-label>Full Name</mat-label>
-            <input matInput type="text" required/>
-          </mat-form-field>
+      <form (submit)="signup()">
+        <mat-form-field appearance="fill">
+          <mat-label>Full Name</mat-label>
+          <input matInput type="text" required  [(ngModel)]="fullName" [ngModelOptions]="{standalone: true}" [disabled]="loading"/>
+        </mat-form-field>
 
-          <mat-form-field appearance="fill">
-            <mat-label>Email</mat-label>
-            <input [(ngModel)]="email" [ngModelOptions]="{standalone: true}" matInput type="email" required/>
-          </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input [(ngModel)]="email" [ngModelOptions]="{standalone: true}" matInput type="email" required [disabled]="loading"/>
+        </mat-form-field>
 
-          <mat-form-field appearance="fill">
-            <mat-label>Password</mat-label>
-            <input matInput [(ngModel)]="password" [ngModelOptions]="{standalone: true}" type="password" required/>
-          </mat-form-field>
-          <p *ngIf="success" style="color:green">{{ success }}</p>
-          <p *ngIf="error" style="color:red">{{ error }}</p>
-          <button mat-raised-button color="primary" type="submit">Sign Up</button>
-        </form>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput [(ngModel)]="password" [ngModelOptions]="{standalone: true}" [type]="showPassword ? 'text' : 'password'" required [disabled]="loading"/>
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="togglePasswordVisibility()"
+            [disabled]="loading"
+            [attr.aria-label]="'Toggle password visibility'"
+            [attr.aria-pressed]="showPassword"
+          >
+            <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
 
-        <p class="auth-footer">
-          Already have an account?
-          <a routerLink="/login">Sign In</a>
-        </p>
-      </mat-card>
-    </div>
+        <div *ngIf="loading" class="spinner">
+          <p>Creating your account… Please wait ⏳</p>
+        </div>
+
+        <div *ngIf="success">
+          <p style="color: green;">
+            ✅ Account created successfully! You can now <a routerLink="/login">log in</a>.
+          </p>
+        </div>
+
+        <div *ngIf="error" style="color: red; margin-top: 1rem;">
+          ⚠️ {{ error }}
+        </div>
+
+        <button mat-raised-button color="primary" type="submit"  [disabled]="loading">Sign Up</button>
+      </form>
+
+      <p class="auth-footer">
+        Already have an account?
+        <a routerLink="/login">Sign In</a>
+      </p>
+    </mat-card>
+  </div>
 </div>
